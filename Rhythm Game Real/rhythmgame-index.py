@@ -4,7 +4,6 @@ import pygame as pyg
 import random as rnd
 from pygame import mixer as mix
 #base
-pyg.init()
 mix.init()
 # window code
 screen = pyg.display.set_mode((800, 600))
