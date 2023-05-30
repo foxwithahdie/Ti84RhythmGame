@@ -8,21 +8,22 @@ import sys
 
 pyg.display.init()
 
-display = pyg.display.set_mode((800, 600))
-width = display.get_width()
-height = display.get_height()
+screen = pyg.display.set_mode((800, 600))
+width = screen.get_width()
+height = screen.get_height()
 clock = pyg.time.Clock()
 
 class PlayerKey(pyg.sprite.Sprite):
-    def __init__(self, x, y, rect, filename, button):
+    def __init__(self, x, y, filename, button):
         self.x = x
-        self.y = y #need to create a variable with a sort of section. then further subtract from it (PERCENTAGE)
+        self.y = y #need to create a variable with a sort of section. then further subtract from it PERCENTAGE
         image = pyg.image.load(filename + ".png").convert()
         rect = image.get_rect()
         self.button = button
-    def c
 # window
+PlayerKey(200, 300, )
 while True:
     for event in pyg.event.get():
-        if event.type == pyg.constants.QUIT:
+        if event.type == pyg.QUIT:
             sys.exit()
+        elif event.type == pyg.KEYDOWN:
