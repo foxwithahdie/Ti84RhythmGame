@@ -22,9 +22,7 @@ selectorFont = pyg.font.SysFont("Cambria", 32)
 color_base = pyg.Color(200, 200, 200)
 color_clicked = pyg.Color(255, 192, 203)
 
-mousetuple = pyg.mouse.get_pos()
 
-mouseButtons = pyg.mouse.get_pressed()
 
 def distance(rect1, rect2):
     x1, y1 = rect1.center
@@ -143,52 +141,42 @@ class PlayerKey(pyg.sprite.Sprite):
             image = self.image
             screen.blit(image, self.rect)
             
-# class Mouse(pyg.sprite.Sprite):
-#     def __init__(self, image):
-#         super().__init__()
-#         self.image = pyg.image.load(image).convert_alpha()
-#         self.rect = self.image.get_rect()
-#     def update(self):
-#         self.rect.center = pyg.mouse.get_pos()
-#     def draw(self, screen):
-#         screen.blit(self.image, self.rect)
-
-# mouse = Mouse("mouseCursor.png")
-# mouseGroup = pyg.sprite.Group()
-# mouseGroup.add(mouse)
-            
-# class MenuSelector(pyg.sprite.Sprite):
+class MenuSelector(pyg.sprite.Sprite):
     
-#     def __init__(self, x, y, select):
-#         super().__init__()
-#         self.x = x
-#         self.y = y
-#         self.selectorRender = selectorFont.render(select, True, (0,0,0))
-#         self.rect = self.selectorRender.get_rect()
-#         self.rect.left = x
-#         self.rect.top = y
-#         self.is_pressed = False
+    def __init__(self, x, y, select):
+        super().__init__()
+        self.x = x
+        self.y = y
+        self.selectorRender = selectorFont.render(select, True, (0,0,0))
+        self.rect = self.selectorRender.get_rect()
+        self.rect.left = x
+        self.rect.top = y
+        self.is_pressed = False
+        self.surface = pyg.Surface((self.rect.width*2, self.rect.height*1.2))
+        #if self.rect.collidepoint(pyg.mouse.get_pos()):
+            #self.surface.fill((255, 192, 203))
+    def draw(self, screen):
+       # screen.blit(self.surface, self.rect)
+        screen.blit(self.selectorRender, self.rect)
+       # if self.rect.collidepoint(pyg.mouse.get_pos()) and pyg.mouse.get_pressed()[0]:
+        #    self.surface.fill((252, 149, 167))
         
-#     def draw(self, screen):
-#         screen.blit(self.selectorRender, self.rect)
+    # def is_clicked(self, group):
+    #     self.is_pressed = False
+    #     if pyg.mouse.get_pressed()[0]:
+    #         if self.rect.collidepoint(pyg.mouse.get_pos()):
+    #             print(4)
+    #             self.is_pressed = True
+    #             pyg.sprite.spritecollide(self, group, True)
+    #             return True
         
-#     def is_clicked(self, group):
-#         self.is_pressed = False
-#         if mouseButtons[0]:
-#             if self.rect.collidepoint(mousetuple):
-#                 print(4)
-#                 self.is_pressed = True
-#                 pyg.sprite.spritecollide(self, group, True)
-#                 return True
-        
-#     def is_clicked_event(self, event, group):
-#         self.is_pressed = False
-#         if event.type == pyg.MOUSEBUTTONDOWN:
-#             if self.rect.collidepoint(event.pos):
-#                 print(3)
-#                 self.is_pressed = True
-#                 pyg.sprite.spritecollide(self, group, True)
-#                 return True
+    # def is_clicked_event(self, event, group):
+    #     self.is_pressed = False
+    #     if event.type == pyg.MOUSEBUTTONDOWN:
+    #         if self.rect.collidepoint(event.pos):
+    #             self.is_pressed = True
+    #             pyg.sprite.spritecollide(self, group, True)
+    #             return True
     
 notesGroup = pyg.sprite.Group()
 
@@ -200,9 +188,9 @@ def load(map):
     f = open(map + ".txt", "r")
     data = f.readlines()
     # data.reverse()
-    mix.music.load("Music\91 Battle! (Elite Four).mp3")
-    mix.music.set_volume(2)
-    mix.music.play()
+    #mix.music.load("Music\91 Battle! (Elite Four).mp3")
+    #mix.music.set_volume(2)
+    #mix.music.play()
     for y in range(len(data)):
         if len(data[y]) >= 1 and data[y][0] == "0":
             yellow = Note(150, 150 - y*65, "Assets\yellowcircle.png", notes)
@@ -231,58 +219,83 @@ keybind_changers = []
 player_keys = []
 
 for i in range(4):
-    keybind_changers.append(KeybindChanger(25 + 100 * i, 25))
+    keybind_changers.append(KeybindChanger(225 + 100 * i, 300))
 
 player_keys.append(PlayerKey(150, 475, "Assets\greyscalecircle","Assets\yellowcircleDull", pyg.K_d))
 player_keys.append(PlayerKey(275, 475, "Assets\greyscalecircle","Assets\purplecircleDull", pyg.K_f))
 player_keys.append(PlayerKey(400, 475, "Assets\greyscalecircle","Assets\RedcircleDull", pyg.K_j))
 player_keys.append(PlayerKey(525, 475, "Assets\greyscalecircle","Assets\BluecircleDull", pyg.K_k))
 
-scroll_speed = 10
+scroll_speed = 10   
 
-# playButton = MenuSelector(400, 300, "Play")
+MenuGroup = pyg.sprite.Group()
 
+playButton = MenuSelector(300, 300, "Play")
+optionsButton = MenuSelector(300, 400, "Options")
+backButton = MenuSelector(50, 50, "Back")
+
+MenuGroup.add(playButton)
+MenuGroup.add(optionsButton)
+
+currentPage = "start"
+
+# print(str(MenuGroup))
 while True:
     
-    screen.fill((255,255,255))
-    
-    # playButton.draw(screen)
-    
-    # if playButton.is_clicked(mouseGroup) == True:
-    
-    for keybind_changer in keybind_changers:
-        keybind_changer.draw(screen)
+    screen.fill((255,255,255))   
 
-    for i in range(len(player_keys)):
-        player_keys[i].draw(screen)
-
-    notesGroup.draw(screen)
-    notesGroup.update()
+    if currentPage == "start":
+        playButton.draw(screen)
+        optionsButton.draw(screen)
+    
+        if pyg.mouse.get_pressed()[0] and playButton.rect.collidepoint(pyg.mouse.get_pos()):
+            currentPage = "game"
+            continue
         
-        # pyg.display.flip()
-    
+        if pyg.mouse.get_pressed()[0] and optionsButton.rect.collidepoint(pyg.mouse.get_pos()):
+            currentPage = "options"
+            continue
+        
+
+    if currentPage == "game":
+        for i in range(len(player_keys)):
+            player_keys[i].draw(screen)
+
+        notesGroup.draw(screen)
+        notesGroup.update()
+
+    if currentPage == "options":
+        for keybind_changer in keybind_changers:
+            keybind_changer.draw(screen)
+            backButton.draw(screen)
+        
+        if pyg.mouse.get_pressed()[0] and backButton.rect.collidepoint(pyg.mouse.get_pos()):
+            currentPage = "start"
+            continue
 
     
     for event in pyg.event.get():
         if event.type == pyg.QUIT:
             pyg.quit()
             exit()
-        
-        # if playButton.is_clicked_event(event, mouseGroup) == True:
-        #     print(8)
-
-        for i in range(len(player_keys)):
-            player_keys[i].press_button(event, notesCall, notesGroup)
-
+            
         for i in range(len(keybind_changers)):
             keybind_changers[i].update(event, player_keys[i])
+            
+        for i in range(len(player_keys)):
+            player_keys[i].press_button(event, notesCall, notesGroup)
         
         if event.type == pyg.KEYDOWN:
             if event.key == pyg.K_ESCAPE:
+                currentPage == "start"
+                continue
+            if event.key == pyg.K_TAB:
                 scroll_speed = 0
             if event.key == pyg.K_0:
                 scroll_speed = 10
-           # pyg.display.flip()
+                
+
+            
             
     pyg.display.flip()
     clock.tick(framerate)
