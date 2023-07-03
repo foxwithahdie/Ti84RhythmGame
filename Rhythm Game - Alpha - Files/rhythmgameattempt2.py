@@ -211,7 +211,7 @@ def load(map):
     
     return notes
 
-map_1 = load("testmap")
+map_1 = load("Assets\testmap")
 
 clock.tick(framerate)
 
