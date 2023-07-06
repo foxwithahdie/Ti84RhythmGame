@@ -2,6 +2,7 @@ import pygame as pyg
 import random as rand
 import time
 from pygame import mixer as mix
+import os
 
 
 pyg.display.init()
@@ -118,7 +119,15 @@ class PlayerKey(pyg.sprite.Sprite):
             self.rect = self.image.get_rect()
             self.rect.left = self.x
             self.rect.top = self.y
-    
+    def judgement(self):
+        worldFont.render("Perfect", True, (0,0,0))
+        worldFont.render("Good", True, (0,0,0))
+        worldFont.render("Ok", True, (0,0,0))
+        worldFont.render("Bad", True, (0,0,0))
+        worldFont.render("Miss", True, (0,0,0))
+        
+        if distance(self):
+            pass
     """
                 
     Continue with this idea.
@@ -193,25 +202,25 @@ def load(map):
     #mix.music.play()
     for y in range(len(data)):
         if len(data[y]) >= 1 and data[y][0] == "0":
-            yellow = Note(150, 150 - y*65, "Assets\yellowcircle.png", notes)
+            yellow = Note(150, 150 - y*65, os.path.join("Assets", "Yellowcircle.png"), notes)
             notesCall.append(yellow)
             notesGroup.add(yellow)
         if len(data[y]) >= 2 and data[y][1] == "0":
-            purple = Note(275, 150 - y*65, "Assets\purplecircle.png", notes)
+            purple = Note(275, 150 - y*65, os.path.join("Assets", "Purplecircle.png"), notes)
             notesCall.append(purple)
             notesGroup.add(purple)
         if len(data[y]) >= 3 and data[y][2] == "0":
-            red = Note(400, 150 - y*65, "Assets\Redcircle.png", notes)
+            red = Note(400, 150 - y*65, os.path.join("Assets", "Redcircle.png"), notes)
             notesCall.append(red)
             notesGroup.add(red)
         if len(data[y]) >= 4 and data[y][3] == "0":
-            blue = Note(525, 150 - y*65, "Assets\Bluecircle.png", notes)
+            blue = Note(525, 150 - y*65, os.path.join("Assets", "Bluecircle.png"), notes)
             notesCall.append(blue)
             notesGroup.add(blue)
     
     return notes
 
-map_1 = load("testmap")
+map_1 = load('testmap')
 
 clock.tick(framerate)
 
@@ -221,10 +230,10 @@ player_keys = []
 for i in range(4):
     keybind_changers.append(KeybindChanger(225 + 100 * i, 300))
 
-player_keys.append(PlayerKey(150, 475, "Assets\greyscalecircle","Assets\yellowcircleDull", pyg.K_d))
-player_keys.append(PlayerKey(275, 475, "Assets\greyscalecircle","Assets\purplecircleDull", pyg.K_f))
-player_keys.append(PlayerKey(400, 475, "Assets\greyscalecircle","Assets\RedcircleDull", pyg.K_j))
-player_keys.append(PlayerKey(525, 475, "Assets\greyscalecircle","Assets\BluecircleDull", pyg.K_k))
+player_keys.append(PlayerKey(150, 475, os.path.join("Assets", "greyscalecircle"), os.path.join("Assets", "yellowcircleDull"), pyg.K_d))
+player_keys.append(PlayerKey(275, 475, os.path.join("Assets", "greyscalecircle"), os.path.join("Assets", "purplecircleDull"), pyg.K_f))
+player_keys.append(PlayerKey(400, 475, os.path.join("Assets", "greyscalecircle"), os.path.join("Assets", "redcircleDull"), pyg.K_j))
+player_keys.append(PlayerKey(525, 475, os.path.join("Assets", "greyscalecircle"), os.path.join("Assets", "bluecircleDull"), pyg.K_k))
 
 scroll_speed = 10   
 
