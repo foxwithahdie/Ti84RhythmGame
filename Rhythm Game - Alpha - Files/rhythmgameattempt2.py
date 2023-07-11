@@ -103,6 +103,11 @@ class PlayerKey(pyg.sprite.Sprite):
         self.button = button
         self.is_pressed = False
         self.counter = worldFont.render("0", True, (0, 0, 0))
+        #self.perfectCounter = worldFont.render("Perfect", True, (0,0,0))
+        #self.goodCounter = worldFont.render("Good", True, (0,0,0))
+        #self.okCounter  = worldFont.render("Ok", True, (0,0,0))
+        #self.worldFont.render("Bad", True, (0,0,0))
+        #worldFont.render("Miss", True, (0,0,0))
 
     def update_button(self, button):
         self.button = button
@@ -119,14 +124,8 @@ class PlayerKey(pyg.sprite.Sprite):
             self.rect = self.image.get_rect()
             self.rect.left = self.x
             self.rect.top = self.y
-    def judgement(self):
-        worldFont.render("Perfect", True, (0,0,0))
-        worldFont.render("Good", True, (0,0,0))
-        worldFont.render("Ok", True, (0,0,0))
-        worldFont.render("Bad", True, (0,0,0))
-        worldFont.render("Miss", True, (0,0,0))
-        
-        if distance(self):
+    def judgement(self, group):
+        for note in group.sprites:
             pass
     """
                 
