@@ -194,7 +194,7 @@ def load(map):
     notes = []
     global notesCall
     notesCall = []
-    f = open(map + ".txt", "r")
+    f = open(map, "r")
     data = f.readlines()
     # data.reverse()
     #mix.music.load("Music\91 Battle! (Elite Four).mp3")
@@ -220,7 +220,7 @@ def load(map):
     
     return notes
 
-map_1 = load('testmap')
+map_1 = load(os.path.join("Assets", "testmap.txt"))
 
 clock.tick(framerate)
 
