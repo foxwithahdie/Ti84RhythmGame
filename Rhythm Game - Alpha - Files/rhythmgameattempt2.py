@@ -102,7 +102,7 @@ class PlayerKey(pyg.sprite.Sprite):
         self.rect.top = y
         self.button = button
         self.is_pressed = False
-        
+        self.counter = worldFont.render("0", True, (0, 0, 0))
 
     def update_button(self, button):
         self.button = button
